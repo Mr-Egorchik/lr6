@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://taskListView.title"
+      focusComponent="tasksDataGrid">
+    <data>
+        <collection id="tasksDc"
+                    class="com.company.lr6.entity.Task">
+            <fetchPlan extends="_base">
+                <property name="answers" fetchPlan="_base">
+                    <property name="user" fetchPlan="_base"/>
+                </property>
+                <property name="user" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="tasksDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Task_ e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="tasksDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="tasksDataGrid.create"/>
+            <button id="editBtn" action="tasksDataGrid.edit"/>
+            <button id="readBtn" action="tasksDataGrid.read"/>
+            <button id="removeBtn" action="tasksDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="tasksDl"/>
+        </hbox>
+        <dataGrid id="tasksDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="tasksDc"
+                  columnReorderingAllowed="true"
+                  selectionMode="MULTI">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="text"/>
+                <column property="discipline"/>
+                <column property="deadline"/>
+                <column property="user"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

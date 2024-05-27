@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://answerDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="answerDc"
+                  class="com.company.lr6.entity.Answer">
+            <fetchPlan extends="_base">
+                <property name="task" fetchPlan="_base">
+                    <property name="user" fetchPlan="_base"/>
+                </property>
+                <property name="user" fetchPlan="_base">
+                    <property name="group" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="answerDc">
+            <textArea id="answerField" height="9.5em" property="answer"/>
+            <textField id="documentField" property="document"/>
+            <dateTimePicker id="dateField" property="date"/>
+            <entityPicker id="taskField" property="task">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="userField" property="user">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
